@@ -1,6 +1,6 @@
 @echo off
 @REM AUTHOR: WKJay
-@REM VERSION: V1.0.0
+@REM VERSION: V1.0.1
 
 @REM 请根据实际情况修改以下变量，注意如果使用相对路径，需要以KEIL的工程文件路径为基准，而非本脚本所在路径
 
@@ -27,7 +27,7 @@ set SECOND=%TIME:~6,2%
 set CURRENT_DATE=%YEAR%%MONTH%%DAY%_%HOUR%%MINUTE%%SECOND%
 @REM echo "Current date: %CURRENT_DATE%"
 
-for /f "tokens=3 delims= " %%i in ('findstr %VERSION_PATTERN% %VERSION_FILE_PATH%') do set sw_ver=%%i
+for /f "tokens=3 delims= " %%i in ('findstr /C:%VERSION_PATTERN% %VERSION_FILE_PATH%') do set sw_ver=%%i
 @REM 去除字符串两端的双引号，如果代码中定义版本字符的不包含双引号，需要去除此行
 set sw_ver=%sw_ver:~1,-1%
 
@@ -47,5 +47,9 @@ echo "Output bin file: %OUTPUT_PATH%\%output_file_name%.bin"
 @REM GET HEX
 echo "Output hex file: %OUTPUT_PATH%\%output_file_name%.hex"
 copy %OBJ_PATH%\%EXEC_NAME%.hex %OUTPUT_PATH%\%output_file_name%.hex
+
+@REM GET DIS
+echo "Output dis file: %OUTPUT_PATH%\%output_file_name%.dis"
+%FROMELF_PATH%\fromelf --text -a -c --output=%OUTPUT_PATH%\%output_file_name%_disassembly.txt %OBJ_PATH%\%EXEC_NAME%.axf
 
 exit
