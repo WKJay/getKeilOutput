@@ -21,9 +21,12 @@ set VERSION_PATTERN="#define SOFTWARE_VERSION"
 set YEAR=%DATE:~2,2%
 set MONTH=%DATE:~5,2%
 set DAY=%DATE:~8,2%
-set HOUR=%TIME:~0,2%
-set MINUTE=%TIME:~3,2%
-set SECOND=%TIME:~6,2%
+
+@REM 在时间字符串出现空格时补0，避免后续处理出错
+set _TIME=%TIME: =0%
+set HOUR=%_TIME:~0,2%
+set MINUTE=%_TIME:~3,2%
+set SECOND=%_TIME:~6,2%
 set CURRENT_DATE=%YEAR%%MONTH%%DAY%_%HOUR%%MINUTE%%SECOND%
 @REM echo "Current date: %CURRENT_DATE%"
 
